@@ -4,11 +4,21 @@
     <title>OCR App</title>
 </head>
 <body>
+    <input type="text" id="serverIpInput" placeholder="Server IP Address">
+    <button onclick="setServerIp()">Set Server IP</button>
+    <br>
     <input type="file" id="imageInput" accept="image/*">
     <button onclick="uploadImage()">Upload Image</button>
     <div id="ocrResult"></div>
 
     <script>
+        let serverIp = 'http://127.0.0.1:5000'; // Default server IP
+
+        function setServerIp() {
+            const serverIpInput = document.getElementById('serverIpInput');
+            serverIp = serverIpInput.value;
+        }
+
         function uploadImage() {
             const fileInput = document.getElementById('imageInput');
             const ocrResultDiv = document.getElementById('ocrResult');
@@ -16,7 +26,7 @@
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
 
-            fetch('http://127.0.0.1:5000/upload', {
+            fetch(`${serverIp}/upload`, { // Use the configured server IP
                 method: 'POST',
                 body: formData
             })
